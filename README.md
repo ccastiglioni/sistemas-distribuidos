@@ -1,0 +1,62 @@
+SISTEMAS DISTRIBUÍDOS
+    - Heterogêneos: diferentes arquiteturas de hardware, sistema operacional e linguagens de programação
+    - Fracamente acoplados (distribuídos geograficamente via protocolos do modelo TCP/IP: endereço de rede, porta lógica, máscara de rede, protocolos de transporte)
+    - GRID computacional
+    - Arquiteturas: Cliente-Servidor; Ponto-a-Ponto
+        - Tolerância a falhas
+        - Escalabilidade
+        - Segurança
+        - Manutenção/atualização
+
+    - Objetivo: compartilhar recursos (processador e memória)
+      - ao compartilhar recurso, é necessário controlar SINCRONISMO:
+      - relógio: lógico e físico
+      - recurso: exclusão mútua
+
+    - SD são fortemente dependente de Sistemas Operacional: gestor de processamento; gestor de comunicação, ou um gestor das camadas de serviço;
+        Observação: Sistemas distribuídos, na essência, têm comunicação via SOCKET (ip, porta, márcara, objetos escritores/leitores) que é BLOQUEANTE.
+                    SOLUÇÃO COMPUTACIONAL EM TEMPO DE PROGRAMAÇÃO é o uso de THREADS.
+
+    - Características básicas:
+      - arquitetura:
+          - cliente-servidor
+          - ponto-a-ponto (P2P)
+          - híbrido
+      - comunicação bloqueante
+          - escrever
+          - ler
+========================================================================
+      - programação multitarefa (thread)
+          - thread é um mini processo dentro de um processo
+          - thread pode ser com memória compartilhada
+              - sincronismo: monitor, semáforo
+          - thread sem memória compartilhada
+          - importância: execução de processos concomitantemente. E em SD, para liberar comunicação bloqueante
+
+THREAD:
+    - um subprocesso ou um miniprocesso pertencente a um processo (identificador, nome, endereço, tamanho, tempo, instruções) criado em tempo
+      de programação/execução
+    - finalidade de threads é garantir processamento concomitante
+    - estados de uma thread: execução, finalizado/pronto, espera/aguardando, parado, dormindo, cancelado, ...
+    - há comandos que garantem SINCRONISMO de processamento.
+
+    - Thread com compartilhamento de memória/recurso (o processamento é bloqueante). Fica de responsabilidade do PROGRAMADOR garantir SINCRONISMO (tempo)
+    - Thread sem compartilhamento de memória/recurso
+
+     - Thread em Java -> é processamento concomitante (JVM)
+      Com compartilhamento de memória -> Interface Runnable
+      Sem compartilhamento de memória -> Classe Thread
+
+
+
+SISTEMAS PARALELOS
+    - Homogêneos: arquiteturas de hardware, sistema operacional e linguagens de programação idênticas
+    - Fortemente acoplados (fixos em um mesmo lugar via protocolos do modelo TCP/IP: endereço de rede, porta lógica, máscara de rede, protocolos de transporte)
+    - CLUSTER computacional
+    - Arquiteturas: Ponto-a-Ponto
+        - Tolerância a falhas
+        - Escalabilidade
+        - Segurança
+        - Manutenção/atualização
+
+    - Objetivo: compartilhar recursos (processador e memória)
