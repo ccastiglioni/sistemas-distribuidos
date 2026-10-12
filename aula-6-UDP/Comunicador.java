@@ -10,6 +10,11 @@ public class Comunicador implements AutoCloseable {
     public static final int PORTA_SERVIDOR = 12345;
     public static final int TAMANHO_MAXIMO_MENSAGEM = 1024;
     public static final int TEMPO_LIMITE_RESPOSTA_MS = 5000;
+    public static final String COMANDO_TOKEN = "TOKEN";
+    public static final String CADASTRO_REALIZADO = "Cadastro realizado com sucesso.";
+    public static final String CLIENTE_JA_CADASTRADO = "Cliente já cadastrado com este e-mail.";
+    public static final String CLIENTE_NAO_CADASTRADO =
+            "Cliente não cadastrado. Realize o cadastro antes de solicitar um token.";
 
     private final DatagramSocket socket;
 

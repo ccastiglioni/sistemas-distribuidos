@@ -1,5 +1,6 @@
 import java.io.IOException;
 import java.net.DatagramPacket;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,21 +31,40 @@ public class ServidorUDP {
                         throw new IllegalArgumentException("Envie o cadastro no formato nome;e-mail.");
                     }
 
-                    Pessoa pessoa = new Pessoa(campos[0], campos[1]);
-                    boolean jaCadastrado = false;
-                    for (Pessoa cadastrada : pessoas) {
-                        if (cadastrada.getEmail().equals(pessoa.getEmail())) {
-                            jaCadastrado = true;
-                            break;
+                    if (Comunicador.COMANDO_TOKEN.equals(campos[0])) {
+                        String email = campos[1].strip();
+                        Pessoa pessoa = null;
+                        for (Pessoa cadastrada : pessoas) {
+                            if (cadastrada.getEmail().equalsIgnoreCase(email)) {
+                                pessoa = cadastrada;
+                                break;
+                            }
                         }
-                    }
 
-                    if (jaCadastrado) {
-                        resposta = "Cliente já cadastrado com este e-mail.";
+                        if (pessoa == null) {
+                            resposta = Comunicador.CLIENTE_NAO_CADASTRADO;
+                        } else {
+                            String token = pessoa.solicitarToken(Instant.now());
+                            resposta = Comunicador.COMANDO_TOKEN + ";" + token + ";"
+                                    + pessoa.getTokenExpiraEm().toEpochMilli();
+                        }
                     } else {
-                        pessoas.add(pessoa);
-                        resposta = "Cadastro realizado com sucesso.";
-                        System.out.println("Cadastrado: " + pessoa);
+                        Pessoa pessoa = new Pessoa(campos[0], campos[1]);
+                        boolean jaCadastrado = false;
+                        for (Pessoa cadastrada : pessoas) {
+                            if (cadastrada.getEmail().equals(pessoa.getEmail())) {
+                                jaCadastrado = true;
+                                break;
+                            }
+                        }
+
+                        if (jaCadastrado) {
+                            resposta = Comunicador.CLIENTE_JA_CADASTRADO;
+                        } else {
+                            pessoas.add(pessoa);
+                            resposta = Comunicador.CADASTRO_REALIZADO;
+                            System.out.println("Cadastrado: " + pessoa);
+                        }
                     }
                 } catch (IllegalArgumentException e) {
                     resposta = "Cadastro inválido: " + e.getMessage();

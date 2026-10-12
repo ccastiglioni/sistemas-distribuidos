@@ -1,8 +1,16 @@
+import java.time.Duration;
+import java.time.Instant;
 import java.util.Locale;
+import java.util.Objects;
+import java.util.UUID;
 
 public class Pessoa {
+    public static final Duration VALIDADE_TOKEN = Duration.ofSeconds(60);
+
     private final String nome;
     private final String email;
+    private String token;
+    private Instant tokenExpiraEm;
 
     public Pessoa(String nome, String email) {
         if (nome == null || email == null) {
@@ -38,6 +46,21 @@ public class Pessoa {
 
     public String getEmail() {
         return email;
+    }
+
+    public String solicitarToken(Instant agora) {
+        Objects.requireNonNull(agora, "Informe o instante da solicitação.");
+
+        if (token == null || !agora.isBefore(tokenExpiraEm)) {
+            token = UUID.randomUUID().toString();
+            tokenExpiraEm = agora.plus(VALIDADE_TOKEN);
+        }
+
+        return token;
+    }
+
+    public Instant getTokenExpiraEm() {
+        return tokenExpiraEm;
     }
 
     @Override
